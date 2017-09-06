@@ -1,0 +1,64 @@
+# ===============================
+# = Tomcat
+# ===============================
+server:
+  port: ${PORT:8888}
+  tomcat:
+    uri-encoding: UTF-8
+
+# ===============================
+# = LOG
+# ===============================
+logging:
+  config: classpath:logback.xml
+  level:
+    #show sql statement
+    org.hibernate.SQL: trace
+    #show sql values
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+spring:
+  # ===============================
+  # = Thymeleaf configurations
+  # ===============================
+  thymeleaf:
+    mode: HTML
+    cache: false
+    prefix: classpath:/templates/
+  mandatory-file-encoding: utf-8
+
+  # ===============================
+  # = DATA SOURCE
+  # ===============================
+  datasource:
+    #url: jdbc:hsqldb:mem:dirsdb
+    url: jdbc:hsqldb:file:C:/temp/dirsdb
+    username: sa
+    password:
+    #tomcat:
+      #validation-query: SELECT 1
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+  # ===============================
+  # = HTTP/HTTPS
+  # ===============================
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+      force-request: true
+      force-response: true
+  # ===============================
+  # = JPA / HIBERNATE
+  # ===============================
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+      naming:
+        strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        #hbm2ddl.auto: create-drop
+        format_sql: true
+        dialect: org.hibernate.dialect.HSQLDialect
