@@ -11,7 +11,10 @@ function extendsOpts(ajaxUrl, opts) {
             "ordering": true,
             "paging": false,
             "bFilter": false,
-            "info": false
+            "info": false, // убираем "отфильтровано N из N записей
+            "language": {
+                "url": "json/ru.json"
+            }
         }
     );
     return opts;
@@ -19,16 +22,16 @@ function extendsOpts(ajaxUrl, opts) {
 
 function formatDate(date) {
     var year = date.substr(0, 4);
-    var month = date.substr(5,2);
-    var dt = date.substr(8,2);
-    var hh = date.substr(11,2);
-    var mm = date.substr(14,2);
+    var month = date.substr(5, 2);
+    var dt = date.substr(8, 2);
+    var hh = date.substr(11, 2);
+    var mm = date.substr(14, 2);
     return dt + '.' + month + '.' + year + ' ' + hh + ':' + mm;
 }
 
 function renderEditBtn(data, type, row) {
     if (type == 'display') {
-        return '<button class="btn btn-xs btn-primary" id="rowid' + row.id + '" onclick="updateRow(' + row.id + ');">' +
+        return '<button class="btn btn-xs btn-primary" id="rowid' + row.id + '" onclick="showModal(' + row.id + ');">' +
             '<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></button>';
     }
 }
@@ -41,7 +44,6 @@ function renderDeleteBtn(data, type, row) {
 }
 
 function deleteRow(id) {
-    alert(ajaxUrl + id);
     $.ajax({
         url: ajaxUrl + id,
         type: 'DELETE',
@@ -58,9 +60,25 @@ function save() {
         data: $('#dirsForm').serialize(),
         success: function () {
             dirDatatableAPI.ajax.reload();
+            $("#dirsForm")[0].reset();
         }
     }).fail(function (jqXHR, textStatus, thrownError) {
-            // doing SUBSTRING instead of REPLACE because last quotes doesn't change due to <br/>
-            alert(jqXHR.responseText);
+        alert(jqXHR.responseText);
     });
+}
+
+
+function showModal(id) {
+    var currentRow = $("#rowid" + id).closest("tr");
+    var cell1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+    var cell2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+
+    subAjaxUrl = ajaxUrl + id + '/subdirs';
+    $('#modalTitle').html(cell2 + " " + cell1);
+    $.get(subAjaxUrl, updateTableByData);
+    $('#myModal').modal();
+}
+
+function updateTableByData(data) {
+    subdirDatatableAPI.clear().rows.add(data).draw();
 }

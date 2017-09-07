@@ -1,5 +1,6 @@
 package com.test.dirsandfiles.controller;
 
+import com.test.dirsandfiles.model.BaseEntity;
 import com.test.dirsandfiles.model.ParentDir;
 import com.test.dirsandfiles.model.SubDir;
 import com.test.dirsandfiles.repository.SubDirRepository;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.test.dirsandfiles.controller.DirsController.URL;
 
@@ -40,10 +43,11 @@ public class DirsController {
     }
 
     @GetMapping(value = "/{id}/subdirs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    //https://stackoverflow.com/a/5526817/7203956
     @ResponseBody
     public List<SubDir> getSubdirs(@PathVariable("id") int id) {
-        return subDirRepository.findAll(id);
+        List<SubDir> all = subDirRepository.findAll(id);
+
+        return all.stream().sorted(Comparator.comparingInt(BaseEntity::getId).reversed()).collect(Collectors.toList());
     }
 
     @DeleteMapping(value = "/{id}")

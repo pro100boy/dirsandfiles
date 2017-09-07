@@ -8,32 +8,19 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="modalTitle"></h4>
             </div>
             <div class="modal-body">
-                <table class="table table-hover display">
+                <table class="table table-striped display" id="subdirsTable">
                     <thead>
                     <tr>
-                        <th>Дата</th>
-                        <th>Базовый каталог</th>
-                        <th>Каталогов</th>
-                        <th>Файлов</th>
-                        <th>Размер файлов</th>
+                        <th>Файл</th>
+                        <th>Размер</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr th:each="pDir : ${parentDirs}">
-                        <td th:text="${{pDir.date}}">path</td> <!--https://stackoverflow.com/a/39860834/7203956-->
-                        <td th:text="${pDir.path}">path</td>
-                        <td th:text="${pDir.dircount}">10</td>
-                        <td th:text="${pDir.filescount}">10</td>
-                        <td th:text="${pDir.size}">10 Mb</td>
-                    </tr>
-                    </tbody>
                 </table>
             </div>
-            <th:block th:text="${content}">dfgdg</th:block>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>

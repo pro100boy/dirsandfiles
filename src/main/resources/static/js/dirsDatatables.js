@@ -33,7 +33,6 @@ $(function () {
                 "defaultContent": "",
                 "render": renderDeleteBtn
             }
-
         ],
         "order": [[0, "desc"]],
         "columnDefs": [

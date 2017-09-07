@@ -1,1 +1,21 @@
+var subdirDatatableAPI;
+var subAjaxUrl;
 
+$(function () {
+
+    subdirDatatableAPI = $('#subdirsTable').DataTable(extendsOpts(subAjaxUrl, {
+        "columns": [
+            {
+                "data": "path"
+            },
+            {
+                "data": "size"
+            }
+        ],
+        "columnDefs": [
+            {"orderable": false, "targets": [0, 1]},
+            {"width": "65%", "targets": 0}
+        ],
+        "aaSorting" : []
+    }));
+});
