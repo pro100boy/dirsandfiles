@@ -6,21 +6,21 @@ import com.test.dirsandfiles.repository.SubDirRepository;
 import com.test.dirsandfiles.service.ParentDirService;
 import com.test.dirsandfiles.to.PathTo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.util.List;
 
-import static com.test.dirsandfiles.controller.Main.URL;
+import static com.test.dirsandfiles.controller.DirsController.URL;
 
 @Controller
 @RequestMapping(value = URL)
-public class Main {
+public class DirsController {
     public static final String URL = "/dirs_and_files";
-    private final PathTo pathTo = new PathTo();
 
     @Autowired
     private ParentDirService service;
@@ -28,39 +28,37 @@ public class Main {
     @Autowired
     private SubDirRepository subDirRepository;
 
-    @ModelAttribute("parentDirs")
-    public List<ParentDir> getAll() {
-        return service.getAll();
-    }
-
-    @ModelAttribute("pathTo")
-    public PathTo getPathTo()
-    {
-        return pathTo;
-    }
-
     @GetMapping
     public String main() {
         return "main";
     }
 
-    @GetMapping(value = "/{id}/subdirs")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<ParentDir> getAll() {
+        return service.getAll();
+    }
+
+    @GetMapping(value = "/{id}/subdirs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     //https://stackoverflow.com/a/5526817/7203956
+    @ResponseBody
     public List<SubDir> getSubdirs(@PathVariable("id") int id) {
         return subDirRepository.findAll(id);
     }
 
     @DeleteMapping(value = "/{id}")
-    public String deleteDir(@PathVariable("id") int id) {
+    @ResponseBody
+    public void deleteDir(@PathVariable("id") int id) {
         service.deleteDir(id);
-        return "redirect:" + URL;
     }
 
     @PostMapping
-    public String insertPath(@ModelAttribute(value = "pathTo") PathTo pathTo) {
-        ParentDir parentDir = new ParentDir();
-        parentDir.setPath(pathTo.getPath());
-        System.out.println(service.save(parentDir));
-        return "redirect:" + URL;
+    @ResponseBody
+    public void insertPath(@Valid PathTo pathTo, final BindingResult result) {
+        if (!result.hasErrors()) {
+            ParentDir parentDir = new ParentDir();
+            parentDir.setPath(pathTo.getPath());
+            service.save(parentDir);
+        } else throw new ValidationException("Неверный путь к каталогу");
     }
 }

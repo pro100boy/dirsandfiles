@@ -4,8 +4,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/datatables/1.10.15/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="/webjars/jquery/3.1.1-1/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/datatables/1.10.15/js/jquery.dataTables.min.js" defer></script>
+    <script type="text/javascript" src="/webjars/datatables/1.10.15/js/dataTables.bootstrap.min.js" defer></script>
     <title>Директории и файлы</title>
 </head>
 <body>
@@ -16,21 +19,20 @@
         </div>
 
         <div class="panel-body">
-            <form action="#" class="form-horizontal" th:object="${pathTo}" method="post">
+            <form action="#" class="form-horizontal" autocomplete="off" role="form" id="dirsForm">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="path2dir">Новый каталог:</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="path2dir" placeholder="/path/to/dir"
-                               th:field="*{path}"/>
+                        <input type="text" class="form-control" id="path2dir" placeholder="/path/to/dir" name="path"/>
                         <span class="help-block">Для ОС Windows путь должен выглядеть как: c:\path\to\dir</span>
                     </div>
-                    <button type="submit" class="btn btn-info">Добавить</button>
+                    <button type="button" class="btn btn-info" onclick="save()">Добавить</button>
                 </div>
             </form>
             <p>
             <h3>Список каталогов и файлов</h3></p>
             <!-- Таблица -->
-            <table class="table table-hover display">
+            <table class="table table-striped display" id="dirsTable">
                 <thead>
                 <tr>
                     <th>Дата</th>
@@ -42,37 +44,12 @@
                     <th></th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr th:each="pDir : ${parentDirs}">
-                    <td th:text="${{pDir.date}}">path</td> <!--https://stackoverflow.com/a/39860834/7203956-->
-                    <td th:text="${pDir.path}">path</td>
-                    <td th:text="${pDir.dircount}">10</td>
-                    <td th:text="${pDir.filescount}">10</td>
-                    <td th:text="${pDir.size}">10 Mb</td>
-                    <td>
-                        <form th:action="@{/dirs_and_files/{id}/subdirs(id=${pDir.id})}" th:method="get">
-                            <p data-placement="top" data-toggle="modal" data-target="#myModal" title="Файлы">
-                                <button class="btn btn-xs btn-primary" data-title="Файлы">
-                                    <span class="glyphicon glyphicon-folder-open"></span>
-                                </button>
-                            </p>
-                        </form>
-                    </td>
-                    <td>
-                        <form th:action="@{/dirs_and_files/{id}(id=${pDir.id})}" th:method="delete">
-                            <p data-placement="top" data-toggle="tooltip" title="Delete">
-                                <button class="btn btn-danger btn-xs" data-title="Delete">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </button>
-                            </p>
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
             </table>
         </div>
     </div>
     <th:block th:replace="~{subdirs :: subdirsModal}"></th:block>
+    <script type="application/javascript" src="/js/dirsDatatables.js" defer></script>
+    <script type="application/javascript" src="/js/datatables.js" defer></script>
 </div>
 </body>
 </html>
