@@ -4,9 +4,9 @@ import com.test.dirsandfiles.model.ParentDir;
 import com.test.dirsandfiles.model.SubDir;
 import com.test.dirsandfiles.repository.ParentDirRepository;
 import com.test.dirsandfiles.repository.SubDirRepository;
+import com.test.dirsandfiles.util.MyFileVisitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -15,6 +15,9 @@ import java.util.List;
 
 @Service
 public class ParentDirServiceImpl implements ParentDirService {
+    @Autowired
+    private MyFileVisitor myFileVisitor;
+
     @Autowired
     private ParentDirRepository parentDirRepository;
 
