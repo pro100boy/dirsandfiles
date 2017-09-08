@@ -26,7 +26,8 @@ public class ParentDirServiceImpl implements ParentDirService {
 
     @Override
     @Transactional
-    public ParentDir save(ParentDir parentDir) {
+    public ParentDir save(String path) {
+        ParentDir parentDir = new ParentDir();
         parentDir.setDate(LocalDateTime.now());
         parentDir.setDircount(100);
         parentDir.setFilescount(500);

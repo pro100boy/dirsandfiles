@@ -5,7 +5,7 @@ import com.test.dirsandfiles.model.ParentDir;
 import java.util.List;
 
 public interface ParentDirService {
-    ParentDir save(ParentDir parentDir);
+    ParentDir save(String path);
 
     List<ParentDir> getAll();
 

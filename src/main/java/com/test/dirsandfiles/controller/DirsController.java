@@ -59,10 +59,8 @@ public class DirsController {
     @PostMapping
     @ResponseBody
     public void insertPath(@Valid PathTo pathTo, final BindingResult result) {
-        if (!result.hasErrors()) {
-            ParentDir parentDir = new ParentDir();
-            parentDir.setPath(pathTo.getPath());
-            service.save(parentDir);
-        } else throw new ValidationException("Неверный путь к каталогу");
+        if (!result.hasErrors())
+            service.save(pathTo.getPath());
+        else throw new ValidationException("Неверный путь к каталогу");
     }
 }
