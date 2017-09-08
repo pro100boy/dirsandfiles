@@ -13,8 +13,6 @@ import java.util.List;
 
 @Service
 public class ParentDirServiceImpl implements ParentDirService {
-    @Autowired
-    private MyFileVisitor myFileVisitor;
 
     @Autowired
     private ParentDirRepository parentDirRepository;
@@ -26,6 +24,7 @@ public class ParentDirServiceImpl implements ParentDirService {
     @Transactional
     public ParentDir save(String path) throws IOException {
         // TODO check files. Some files are not saving
+        final MyFileVisitor myFileVisitor = new MyFileVisitor();
         ParentDir parentDir = myFileVisitor.getDirInfo(path, myFileVisitor);
         parentDir = parentDirRepository.save(parentDir);
 

@@ -54,6 +54,7 @@ function deleteRow(id) {
 }
 
 function save() {
+    // TODO сделать https://api.jquery.com/event.preventdefault/
     $.ajax({
         type: "POST",
         url: ajaxUrl,

@@ -4,7 +4,6 @@ import com.test.dirsandfiles.model.ParentDir;
 import com.test.dirsandfiles.model.SubDir;
 import com.test.dirsandfiles.util.formatter.LongToStringConverter;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -13,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Component
 public class MyFileVisitor extends SimpleFileVisitor<Path> {
 
     private Comparator<String> fileNamesCompare = (o1, o2) -> {
@@ -63,9 +61,6 @@ public class MyFileVisitor extends SimpleFileVisitor<Path> {
     }
 
     public ParentDir getDirInfo(String path, MyFileVisitor myFileVisitor) throws IOException {
-        dirs.clear();
-        files.clear();
-
         EnumSet<FileVisitOption> options = EnumSet.of(FileVisitOption.FOLLOW_LINKS);
         // throws IOException if path is wrong
         Files.walkFileTree(Paths.get(path), options, 1, myFileVisitor);
