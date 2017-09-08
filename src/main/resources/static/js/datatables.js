@@ -9,7 +9,7 @@ function extendsOpts(ajaxUrl, opts) {
             },
             "autoWidth": false,
             "ordering": true,
-            "paging": true,
+            "paging": false,
             "bFilter": false,
             "info": false, // убираем "отфильтровано N из N записей
             "language": {

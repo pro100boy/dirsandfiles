@@ -63,6 +63,8 @@ public class MyFileVisitor extends SimpleFileVisitor<Path> {
     }
 
     public ParentDir getDirInfo(String path, MyFileVisitor myFileVisitor) throws IOException {
+        dirs.clear();
+        files.clear();
 
         EnumSet<FileVisitOption> options = EnumSet.of(FileVisitOption.FOLLOW_LINKS);
         // throws IOException if path is wrong
@@ -75,9 +77,7 @@ public class MyFileVisitor extends SimpleFileVisitor<Path> {
         parentDir.setSize(converter.convert(files.values().stream().mapToLong(Number::longValue).sum()));
 
         List<SubDir> subDirList = dirs.stream().map(s -> new SubDir(null, s, "<DIR>", parentDir)).collect(Collectors.toList());
-        files.entrySet().forEach(stringLongEntry -> {
-            subDirList.add(new SubDir(null, stringLongEntry.getKey(), converter.convert(stringLongEntry.getValue()), parentDir));
-        });
+        files.forEach((key, value) -> subDirList.add(new SubDir(null, key, converter.convert(value), parentDir)));
 
         parentDir.setSubdirs(subDirList);
         return parentDir;
