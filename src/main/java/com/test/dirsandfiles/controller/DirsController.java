@@ -1,6 +1,5 @@
 package com.test.dirsandfiles.controller;
 
-import com.test.dirsandfiles.model.BaseEntity;
 import com.test.dirsandfiles.model.ParentDir;
 import com.test.dirsandfiles.model.SubDir;
 import com.test.dirsandfiles.repository.SubDirRepository;
@@ -14,9 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
-import java.util.Comparator;
+import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.test.dirsandfiles.controller.DirsController.URL;
 
@@ -45,9 +43,7 @@ public class DirsController {
     @GetMapping(value = "/{id}/subdirs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<SubDir> getSubdirs(@PathVariable("id") int id) {
-        List<SubDir> all = subDirRepository.findAll(id);
-
-        return all.stream().sorted(Comparator.comparingInt(BaseEntity::getId).reversed()).collect(Collectors.toList());
+        return subDirRepository.findAll(id);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -58,7 +54,7 @@ public class DirsController {
 
     @PostMapping
     @ResponseBody
-    public void insertPath(@Valid PathTo pathTo, final BindingResult result) {
+    public void insertPath(@Valid PathTo pathTo, final BindingResult result) throws IOException {
         if (!result.hasErrors())
             service.save(pathTo.getPath());
         else throw new ValidationException("Неверный путь к каталогу");

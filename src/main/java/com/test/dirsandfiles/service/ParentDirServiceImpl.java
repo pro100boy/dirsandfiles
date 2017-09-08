@@ -1,7 +1,6 @@
 package com.test.dirsandfiles.service;
 
 import com.test.dirsandfiles.model.ParentDir;
-import com.test.dirsandfiles.model.SubDir;
 import com.test.dirsandfiles.repository.ParentDirRepository;
 import com.test.dirsandfiles.repository.SubDirRepository;
 import com.test.dirsandfiles.util.MyFileVisitor;
@@ -9,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -26,20 +24,11 @@ public class ParentDirServiceImpl implements ParentDirService {
 
     @Override
     @Transactional
-    public ParentDir save(String path) {
-        ParentDir parentDir = new ParentDir();
-        parentDir.setDate(LocalDateTime.now());
-        parentDir.setDircount(100);
-        parentDir.setFilescount(500);
-        parentDir.setSize("500 Mb");
-
+    public ParentDir save(String path) throws IOException {
+        ParentDir parentDir = myFileVisitor.getDirInfo(path, myFileVisitor);
         parentDir = parentDirRepository.save(parentDir);
 
-        List<SubDir> subDirList = Arrays.asList(
-                new SubDir(null, "path1" + parentDir.getId(), "15,6 mb", parentDirRepository.getOne(parentDir.getId())),
-                new SubDir(null, "path2" + parentDir.getId(), "153,6 Kb", parentDirRepository.getOne(parentDir.getId())),
-                new SubDir(null, "path3" + parentDir.getId(), "215,64 Gb", parentDirRepository.getOne(parentDir.getId())));
-        subDirRepository.save(subDirList);
+        subDirRepository.save(parentDir.getSubdirs());
 
         return parentDir;
     }

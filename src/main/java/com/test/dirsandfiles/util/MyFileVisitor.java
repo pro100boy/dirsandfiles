@@ -62,7 +62,7 @@ public class MyFileVisitor extends SimpleFileVisitor<Path> {
         return super.visitFile(file, attrs);
     }
 
-    private ParentDir getDirInfo(String path, MyFileVisitor myFileVisitor) throws IOException {
+    public ParentDir getDirInfo(String path, MyFileVisitor myFileVisitor) throws IOException {
 
         EnumSet<FileVisitOption> options = EnumSet.of(FileVisitOption.FOLLOW_LINKS);
         // throws IOException if path is wrong
@@ -83,11 +83,11 @@ public class MyFileVisitor extends SimpleFileVisitor<Path> {
         return parentDir;
     }
 
-    public static void main(String[] args) throws IOException {
+/*    public static void main(String[] args) throws IOException {
         final MyFileVisitor myFileVisitor = new MyFileVisitor();
         ParentDir parentDir = myFileVisitor.getDirInfo("c:\\TDMS_\\2", myFileVisitor);
         System.out.println(parentDir);
 
         parentDir.getSubdirs().forEach(System.out::println);
-    }
+    }*/
 }
