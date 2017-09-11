@@ -10,13 +10,17 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class MyFileVisitor extends SimpleFileVisitor<Path> {
 
+    private Pattern pattern = Pattern.compile("(^\\D*)(\\d*\\D*)*(\\.[^.]+)$");
+
     private Comparator<String> fileNamesCompare = (o1, o2) -> {
         int res = 0;
-        try {
+        if (!pattern.matcher(o1).matches() && !pattern.matcher(o2).matches()) {
+            // TODO подебажить этот участок кода. Кажется не заходит сюда.
             String[] o1parts = o1.split("[^A-Za-zА-Яа-я0-9]");
             String[] o2parts = o2.split("[^A-Za-zА-Яа-я0-9]");
 
@@ -39,9 +43,8 @@ public class MyFileVisitor extends SimpleFileVisitor<Path> {
                 if (!o1parts[i].equalsIgnoreCase(o2parts[i]))
                     return Integer.compare(Integer.valueOf(o1parts[i]), Integer.valueOf(o2parts[i]));
             }
-        } catch (Exception e) {
-            res = o1.compareToIgnoreCase(o2);
-        }
+        } else return o1.compareToIgnoreCase(o2);
+
         return res;
     };
 
@@ -53,7 +56,7 @@ public class MyFileVisitor extends SimpleFileVisitor<Path> {
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         if (attrs.isDirectory())
             dirs.add(file.getFileName().toString());
-
+//TODO директории писать в files. Всё в одной мапе чтоб было
         if (attrs.isRegularFile())
             files.put(file.getFileName().toString(), attrs.size());
 
@@ -70,19 +73,19 @@ public class MyFileVisitor extends SimpleFileVisitor<Path> {
         parentDir.setFilescount(files.keySet().size());
         parentDir.setDate(LocalDateTime.now());
         parentDir.setSize(converter.convert(files.values().stream().mapToLong(Number::longValue).sum()));
-
-        List<SubDir> subDirList = dirs.stream().map(s -> new SubDir(null, s, "<DIR>", parentDir)).collect(Collectors.toList());
+        List<SubDir> subDirList = dirs.stream().map(s -> new SubDir(null, s, "DIR", parentDir)).collect(Collectors.toList());
         files.forEach((key, value) -> subDirList.add(new SubDir(null, key, converter.convert(value), parentDir)));
 
         parentDir.setSubdirs(subDirList);
         return parentDir;
     }
 
-/*    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         final MyFileVisitor myFileVisitor = new MyFileVisitor();
-        ParentDir parentDir = myFileVisitor.getDirInfo("c:\\TDMS_\\2", myFileVisitor);
+        //ParentDir parentDir = myFileVisitor.getDirInfo("c:\\TDMS_\\2", myFileVisitor);
+        ParentDir parentDir = myFileVisitor.getDirInfo("c:\\Users\\User\\Downloads\\1", myFileVisitor);
         System.out.println(parentDir);
 
         parentDir.getSubdirs().forEach(System.out::println);
-    }*/
+    }
 }

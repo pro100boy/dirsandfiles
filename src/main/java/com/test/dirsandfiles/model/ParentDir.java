@@ -1,11 +1,9 @@
 package com.test.dirsandfiles.model;
 
-import com.test.dirsandfiles.util.DateTimeUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -34,6 +32,5 @@ public class ParentDir extends NamedEntity {
 
     // https://stackoverflow.com/a/4329723/7203956
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentdir", cascade = CascadeType.ALL)
-    //@OrderBy("dateTime DESC") TODO тут подставить нужную сортировку
     protected List<SubDir> subdirs;
 }

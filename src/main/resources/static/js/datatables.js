@@ -13,7 +13,7 @@ function extendsOpts(ajaxUrl, opts) {
             "bFilter": false,
             "info": false, // убираем "отфильтровано N из N записей
             "language": {
-                "url": "json/ru.json"
+                "url": "/json/Russian.json"
             }
         }
     );
@@ -54,7 +54,7 @@ function deleteRow(id) {
 }
 
 function save() {
-    // TODO сделать https://api.jquery.com/event.preventdefault/
+    // made via https://api.jquery.com/event.preventdefault/
     $.ajax({
         type: "POST",
         url: ajaxUrl,

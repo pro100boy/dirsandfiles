@@ -1,4 +1,4 @@
-var ajaxUrl = 'dirs_and_files/';
+var ajaxUrl = '/dirs_and_files/';
 var dirDatatableAPI;
 
 $(function () {
@@ -43,4 +43,9 @@ $(function () {
             , {"className": "dt-right", "targets": [2, 3]}
         ]
     }));
+
+    $('#dirsForm').on('submit', function (e) {
+        e.preventDefault();
+        save();
+    });
 });
