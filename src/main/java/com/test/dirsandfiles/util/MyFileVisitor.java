@@ -20,7 +20,6 @@ public class MyFileVisitor extends SimpleFileVisitor<Path> {
     private Comparator<String> fileNamesCompare = (o1, o2) -> {
         int res = 0;
         if (pattern.matcher(o1).matches() && pattern.matcher(o2).matches()) {
-            // TODO подебажить этот участок кода. Кажется не заходит сюда.
             String[] o1parts = o1.split("[^A-Za-zА-Яа-я0-9]");
             String[] o2parts = o2.split("[^A-Za-zА-Яа-я0-9]");
 

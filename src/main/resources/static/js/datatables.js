@@ -13,7 +13,7 @@ function extendsOpts(ajaxUrl, opts) {
             "bFilter": false,
             "info": false, // убираем "отфильтровано N из N записей
             "language": {
-                "url": "/json/Russian.json"
+                "url": "json/Russian.json"
             }
         }
     );

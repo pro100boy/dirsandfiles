@@ -1,4 +1,4 @@
-var ajaxUrl = '/dirs_and_files/';
+var ajaxUrl = 'dirs_and_files/';
 var dirDatatableAPI;
 
 $(function () {
