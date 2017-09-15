@@ -23,7 +23,6 @@ public class ParentDirServiceImpl implements ParentDirService {
     @Override
     @Transactional
     public ParentDir save(String path) throws IOException {
-        // TODO check files. Some files are not saving
         final MyFileVisitor myFileVisitor = new MyFileVisitor();
         ParentDir parentDir = myFileVisitor.getDirInfo(path, myFileVisitor);
         parentDir = parentDirRepository.save(parentDir);
