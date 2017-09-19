@@ -33,4 +33,11 @@ public class MyFileVisitorTest {
     public void getDirInfo2_nonmatches() throws Exception {
         parentDir = myFileVisitor.getDirInfo("c:\\Users\\User\\Downloads\\CRUD\\AngularJS Essential", myFileVisitor);
     }
+
+    @Test
+    public void getDirInfo2() throws Exception {
+        parentDir = myFileVisitor.getDirInfo("c:\\Users\\User\\Downloads\\2", myFileVisitor);
+    }
+
+    // TODO create tests for Comparator and frontend
 }
