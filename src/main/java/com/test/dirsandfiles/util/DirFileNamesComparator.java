@@ -3,10 +3,10 @@ package com.test.dirsandfiles.util;
 import java.util.Comparator;
 import java.util.regex.Pattern;
 
-class DirFileNamesComparator {
+public class DirFileNamesComparator {
     private static final Pattern pattern = Pattern.compile("(^\\D*)(\\d*\\D*)*(\\.[^.]+)$");
 
-    static Comparator<String> comparator = (o1, o2) -> {
+    public static final Comparator<String> comparator = (o1, o2) -> {
         int res = 0;
         if (pattern.matcher(o1).matches() && pattern.matcher(o2).matches()) {
             String[] o1parts = o1.split("[^A-Za-zА-Яа-я0-9]");

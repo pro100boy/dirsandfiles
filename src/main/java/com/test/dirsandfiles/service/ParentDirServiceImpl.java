@@ -22,7 +22,7 @@ public class ParentDirServiceImpl implements ParentDirService {
 
     @Override
     @Transactional
-    public ParentDir save(String path) throws IOException {
+    public ParentDir save(final String path) throws IOException {
         final MyFileVisitor myFileVisitor = new MyFileVisitor();
         ParentDir parentDir = myFileVisitor.getDirInfo(path, myFileVisitor);
         parentDir = parentDirRepository.save(parentDir);
@@ -39,7 +39,7 @@ public class ParentDirServiceImpl implements ParentDirService {
 
     @Override
     @Transactional
-    public void deleteDir(int id) {
+    public void deleteDir(final int id) {
         parentDirRepository.delete(id);
     }
 }
