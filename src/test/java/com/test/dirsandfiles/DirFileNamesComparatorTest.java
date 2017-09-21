@@ -4,7 +4,6 @@ import com.test.dirsandfiles.model.NamedEntity;
 import com.test.dirsandfiles.model.ParentDir;
 import com.test.dirsandfiles.model.SubDir;
 import com.test.dirsandfiles.util.formatter.LongToStringConverter;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.convert.converter.Converter;
@@ -51,11 +50,10 @@ public class DirFileNamesComparatorTest {
     }
 
     @Test
-    public void comparatorTest()
-    {
-        assertEquals(parentDir.getSize(), "53,43 Mb");
-        assertEquals((long)parentDir.getDircount(), 2);
-        assertEquals((long)parentDir.getFilescount(), 6);
+    public void comparatorTest() {
+        assertEquals(parentDir.getSize().replace(",", "."), "53.43 Mb");
+        assertEquals((long) parentDir.getDircount(), 2);
+        assertEquals((long) parentDir.getFilescount(), 6);
 
         Object[] actual = parentDir.getSubdirs().stream().map(NamedEntity::getPath).toArray();
         Object[] expected = {"innerTemp", "X-FILES", "f.txt", "F1.txt", "F4_99.JPG", "F4_00127.pdf", "f0008.doc", "function.cpp"};
