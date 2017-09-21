@@ -1,8 +1,10 @@
 package com.test.dirsandfiles.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.SafeHtml;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
