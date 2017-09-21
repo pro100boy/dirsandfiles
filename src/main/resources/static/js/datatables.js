@@ -20,6 +20,10 @@ function extendsOpts(ajaxUrl, opts) {
     return opts;
 }
 
+function updateTableByData(data) {
+    subdirDatatableAPI.clear().rows.add(data).draw();
+}
+
 function formatDate(date) {
     var year = date.substr(0, 4);
     var month = date.substr(5, 2);
@@ -30,14 +34,14 @@ function formatDate(date) {
 }
 
 function renderEditBtn(data, type, row) {
-    if (type == 'display') {
+    if (type === 'display') {
         return '<button class="btn btn-xs btn-primary" id="rowid' + row.id + '" onclick="showModal(' + row.id + ');">' +
             '<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></button>';
     }
 }
 
 function renderDeleteBtn(data, type, row) {
-    if (type == 'display') {
+    if (type === 'display') {
         return '<button class="btn btn-xs btn-danger" id="rowid' + row.id + '" onclick="deleteRow(' + row.id + ');">' +
             '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>';
     }
@@ -67,7 +71,6 @@ function save() {
     });
 }
 
-
 function showModal(id) {
     var currentRow = $("#rowid" + id).closest("tr");
     var cell1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
@@ -77,8 +80,4 @@ function showModal(id) {
     $('#modalTitle').html(cell2 + " " + cell1);
     $.get(subAjaxUrl, updateTableByData);
     $('#myModal').modal();
-}
-
-function updateTableByData(data) {
-    subdirDatatableAPI.clear().rows.add(data).draw();
 }

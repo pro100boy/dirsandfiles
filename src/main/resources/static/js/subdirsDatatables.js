@@ -11,7 +11,7 @@ $(function () {
             {
                 "data": "size",
                 "render": function (date, type, row) {
-                    if (type == 'display') {
+                    if (type === 'display') {
                         return date.replace('DIR', '&lt;DIR&gt;');
                     }
                     return date;
